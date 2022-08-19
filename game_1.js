@@ -11,9 +11,11 @@ rl.on('line', (line) => {
         console.log('OK');
         rl.close();
     } else {
-    console.log('Readline paused.');
-        rl.pause();
-        rl.resume();
+    // console.log('Пробуем еще');
+        // rl.pause();
+        // rl.resume();
+        rl.prompt();
+        rl.setPrompt('Подсказки нет:   ');
 
   }
 });
