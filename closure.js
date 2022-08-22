@@ -1,5 +1,4 @@
 function getPasswordChecker(passRight) {
-    // let checkPass = passRight;
     return function checkPass(passCheck) {
         const pass = passRight;
         result = pass == passCheck;
