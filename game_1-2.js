@@ -5,15 +5,14 @@ const rl = readline.createInterface({ input, output });
 
 let num = Math.floor(Math.random() * 1000);
 console.log(num);
-let count = 0
-
-
+let count = 0;
 
 function findNumber (callback) {
     // while (true) {
-        rl.question("Введите целое число от 0 до 999, для выхода - q: ", answer => {
+        count ++;
+        rl.question("Введите целое число от 0 до 999, для выхода - q. ПОПЫТКА № " + count + ": ", answer => {
             console.log('Вы ввели', answer);
-            rl.close();
+            // rl.close();
             callback(answer);
         })
 
@@ -51,22 +50,35 @@ function findNumber (callback) {
 // }
 
 function checkError (guessNum) {
-    if (isNaN(guessNum)) {
-        console.log('Вы ввели не число!');
+    if (isNaN(guessNum) && guessNum !== 'q') {
+        console.log('Вы ввели не число! Попытка не засчитана!');
+        count --;
+        findNumber(checkError)
     } else if (guessNum > 999 || guessNum < 0) {
-        console.log('Вы ввели число за пределами предлагаемого диапазона!');
-    } else if (guessNum != Math.floor(guessNum)) {
-        console.log('Вы ввели не целое число!');
+        console.log('Вы ввели число за пределами предлагаемого диапазона! Попытка не засчитана!');
+        count --;
+        findNumber(checkError)
+    } else if (guessNum != Math.floor(guessNum) && guessNum !== 'q') {
+        console.log('Вы ввели не целое число! Попытка не засчитана!');
+        count --;
+        findNumber(checkError)
     } else if (guessNum - num > 0) {
         console.log('Загаданное число меньше Вашего числа, пока не угадали!');
+        findNumber(checkError)
     } else if (guessNum - num < 0) {
         console.log('Загаданное число больше Вашего числа, пока не угадали!');
-    } 
+        findNumber(checkError)
+    } else if (guessNum == 'q') {
+        console.log('Заходите еще попытать счастье, пока!');
+        rl.close();
+    } else if (+guessNum === num) {
+        console.log('Вы угадали! Количество попыток -', count);
+        rl.close();
+    }
+        
 
 }
 
-function show () {
-    console.log('OKOKOK');
-}
+
 
 findNumber(checkError);
